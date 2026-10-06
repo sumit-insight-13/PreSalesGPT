@@ -1,0 +1,564 @@
+/* ==============================================================
+   PresalesGPT - design system
+   --------------------------------------------------------------
+   The panels are styled with inline styles from styles.ts. This
+   file supplies what inline styles cannot: hover states, focus
+   rings, transitions, scrollbars and the app chrome.
+
+   A few rules use !important. That is deliberate: an inline style
+   always beats a stylesheet rule, so interaction states for the
+   inline-styled controls have no other way to land.
+   ============================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  /* Surfaces */
+  --ink: #0b1524;
+  --surface: #111e33;
+  --surface-raised: #16253d;
+  --surface-hover: #1b2c48;
+  --sidebar: #0c1728;
+
+  /* Lines */
+  --line: #223350;
+  --line-soft: #1a2942;
+
+  /* Text */
+  --text: #e8eefb;
+  --text-muted: #94a4c0;
+  --text-dim: #6a7b98;
+
+  /* Accents */
+  --accent: #4d7cfe;
+  --accent-soft: rgba(77, 124, 254, 0.14);
+  --accent-line: rgba(77, 124, 254, 0.35);
+
+  --green: #2ecc8f;
+  --green-soft: rgba(46, 204, 143, 0.13);
+  --amber: #f0a742;
+  --amber-soft: rgba(240, 167, 66, 0.13);
+  --red: #f06a6a;
+  --red-soft: rgba(240, 106, 106, 0.13);
+  --purple: #9b7cf6;
+
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+            0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.3),
+                 0 16px 40px rgba(0, 0, 0, 0.32);
+
+  --sidebar-width: 262px;
+
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  color: var(--text);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  background-image:
+    radial-gradient(
+      900px 500px at 82% -8%,
+      rgba(77, 124, 254, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 400px at 8% 100%,
+      rgba(155, 124, 246, 0.07),
+      transparent 60%
+    );
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------
+   Scrollbars
+   --------------------------------------------------------------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3b5c transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #2a3b5c;
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #36497080;
+  background-clip: content-box;
+}
+
+/* ---------------------------------------------------------------
+   Typography
+   --------------------------------------------------------------- */
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+strong {
+  font-weight: 600;
+}
+
+pre {
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+/* ---------------------------------------------------------------
+   Controls
+   --------------------------------------------------------------- */
+
+button {
+  font: inherit;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: transform 140ms ease, filter 140ms ease,
+    box-shadow 140ms ease, opacity 140ms ease;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: var(--text);
+  transition: border-color 140ms ease, box-shadow 140ms ease,
+    background 140ms ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-dim);
+}
+
+input[type="file"] {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-line);
+}
+
+/* ---------------------------------------------------------------
+   Tables
+   --------------------------------------------------------------- */
+
+table tbody tr {
+  transition: background 120ms ease;
+}
+
+table tbody tr:hover {
+  background: rgba(77, 124, 254, 0.05);
+}
+
+/* ---------------------------------------------------------------
+   App chrome
+   --------------------------------------------------------------- */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--line-soft);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 22px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4d7cfe, #9b7cf6);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 6px 18px rgba(77, 124, 254, 0.3);
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.nav {
+  display: grid;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.nav-label {
+  padding: 14px 10px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  text-align: left;
+}
+
+.nav-item:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  transform: none;
+  filter: none;
+}
+
+.nav-item.is-active {
+  background: var(--accent-soft);
+  color: #cfdcff;
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.nav-item.is-done {
+  color: var(--text);
+}
+
+.nav-count {
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.nav-item.is-active .nav-count {
+  background: rgba(77, 124, 254, 0.28);
+  color: #dbe5ff;
+}
+
+.nav-tick {
+  color: var(--green);
+  font-size: 12px;
+}
+
+.sidebar-foot {
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.sidebar-foot p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 40px;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(11, 21, 36, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.crumb {
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+.crumb strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.chip-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------------
+   Progress rail
+   --------------------------------------------------------------- */
+
+.rail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 40px;
+  border-bottom: 1px solid var(--line-soft);
+  overflow-x: auto;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.step.is-done {
+  border-color: rgba(46, 204, 143, 0.3);
+  background: var(--green-soft);
+  color: #9ee7c8;
+}
+
+.step.is-current {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: #cfdcff;
+  font-weight: 600;
+}
+
+.step-num {
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.step.is-done .step-num {
+  background: rgba(46, 204, 143, 0.25);
+}
+
+.step.is-current .step-num {
+  background: rgba(77, 124, 254, 0.35);
+}
+
+.step-join {
+  flex: 0 0 18px;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ---------------------------------------------------------------
+   Content area
+   --------------------------------------------------------------- */
+
+.work {
+  padding: 30px 40px 80px;
+  max-width: 1320px;
+  animation: rise 320ms ease both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Cards from styles.ts pick these up */
+.work > div,
+.work > form {
+  animation: rise 320ms ease both;
+}
+
+/* ---------------------------------------------------------------
+   Busy state
+   --------------------------------------------------------------- */
+
+button:disabled[data-busy="true"] {
+  position: relative;
+  overflow: hidden;
+  opacity: 0.85;
+}
+
+button:disabled[data-busy="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  animation: sweep 1.3s linear infinite;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Narrow screens
+   --------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .nav-label {
+    grid-column: 1 / -1;
+  }
+
+  .topbar,
+  .rail,
+  .work {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
